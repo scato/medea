@@ -1,0 +1,41 @@
+grammar Medea
+{
+    options
+    {
+        Axiom = "Script";
+        Separator = "SEPARATOR";
+        OutputPath = "Core\\Parser";
+        Namespace = "Medea.Core.Parser";
+        AccessModifier = "Public";
+    }
+
+    terminals
+    {
+        WHITE_SPACE -> U+0020 | U+0009 | U+000B | U+000C ;
+        SEPARATOR   -> WHITE_SPACE+;
+
+        INTEGER  -> [0-9]
+                  | [1-9] [0-9]*
+                  | '-' [0-9]
+                  | '-' [1-9] [0-9]*;
+        FRACTION -> '.' [0-9]*;
+        EXPONENT -> [Ee] [+-] [0-9]*;
+        NUMBER   -> INTEGER FRACTION? EXPONENT?;
+    }
+
+    rules
+    {
+        Script -> Statement ';';
+
+        // see https://s3.amazonaws.com/artifacts.opencypher.org/M18/railroad/Cypher.html#Query
+        Statement -> Query^;
+        Query -> UpdatingClause;
+        UpdatingClause -> Return^;
+        Return -> ~'RETURN'! Expression;
+
+        // see https://tc39.es/ecma262/#prod-Expression
+        Expression -> Literal^;
+        Literal -> NumericLiteral^;
+        NumericLiteral -> NUMBER;
+    }
+}
