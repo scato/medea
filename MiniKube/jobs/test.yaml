@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: medea-test
+spec:
+  template:
+    spec:
+      containers:
+      - name: medea-test
+        image: medea/test
+        imagePullPolicy: Never
+      restartPolicy: Never
+  backoffLimit: 0

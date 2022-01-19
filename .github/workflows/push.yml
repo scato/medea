@@ -1,0 +1,14 @@
+name: CI
+on:
+  - push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    name: run tests on minikube
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Run unit tests
+      shell: pwsh
+      run: .\MiniKube\Test.ps1
