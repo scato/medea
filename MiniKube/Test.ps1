@@ -1,14 +1,21 @@
 minikube image build . -f Test/Dockerfile --tag=medea/test --logtostderr
 
-minikube kubectl -- delete -f .\MiniKube\jobs\test.yaml
-minikube kubectl -- apply -f .\MiniKube\jobs\test.yaml
+minikube kubectl -- delete -f ./MiniKube/jobs/test.yaml
+minikube kubectl -- apply -f ./MiniKube/jobs/test.yaml
 
-# follow logs, this will terminate once the job is finished
-minikube kubectl -- logs jobs/medea-test --follow
+$active = minikube kubectl -- get job medea-test --output=jsonpath='{.status.active}'
+while ($active -eq '1')
+{
+    Start-Sleep 1
+    Write-Output "Waiting for medea-test to finish..."
+    $active = minikube kubectl -- get job medea-test --output=jsonpath='{.status.active}'
+}
 
-$output = minikube kubectl -- get job medea-test -o json | ConvertFrom-Json
+minikube kubectl -- logs job/medea-test
 
-if ($output.status.failed -eq '1')
+$failed = minikube kubectl -- get job medea-test --output=jsonpath='{.status.failed}'
+
+if ($failed -eq '1')
 {
     throw "Test Run Failed."
 }
