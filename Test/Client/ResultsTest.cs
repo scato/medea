@@ -2,26 +2,29 @@ using NUnit.Framework;
 using Medea.Client;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Medea.Test.Client
 {
     public class ResultsTest
     {
-        private List<JsonDocument> _list;
+        private List<JToken> _list;
 
         [SetUp]
         public void SetUp()
         {
-            _list = new List<JsonDocument>() { JsonDocument.Parse("{\"id\":1}"), JsonDocument.Parse("{\"id\":2}") };
+            _list = new List<JToken>() {
+                new JObject(new JProperty("id", new JValue(1))),
+                new JObject(new JProperty("id", new JValue(2)))
+            };
         }
 
         [Test]
         public void ShouldProvideGenericEnumerator()
         {
-            IEnumerable<JsonDocument> results = new Results(_list);
+            IEnumerable<JToken> results = new Results(_list);
 
-            Assert.IsInstanceOf<IEnumerator<JsonDocument>>(results.GetEnumerator());
+            Assert.IsInstanceOf<IEnumerator<JToken>>(results.GetEnumerator());
         }
 
         [Test]

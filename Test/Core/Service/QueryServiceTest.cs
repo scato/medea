@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Text.Json;
+using System.Collections.Generic;
 using Medea.Core.Service;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace Tests
+namespace Medea.Test.Core.Service
 {
     public class QueryServiceTest
     {
@@ -20,8 +20,7 @@ namespace Tests
         {
             var results = _queryService.Execute("RETURN 1;");
 
-            Assert.AreEqual(1, results.Count());
-            Assert.AreEqual(JsonDocument.Parse("1"), results.ElementAt(0));
+            Assert.AreEqual(new List<JToken>() { new JValue("1") }, results);
         }
     }
 }

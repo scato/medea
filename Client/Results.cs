@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Medea.Client
 {
-    public class Results : IEnumerable<JsonDocument>
+    public class Results : IEnumerable<JToken>
     {
-        private IEnumerable<JsonDocument> _inner;
+        private IEnumerable<JToken> _inner;
 
-        public Results(IEnumerable<JsonDocument> inner)
+        public Results(IEnumerable<JToken> inner)
         {
             _inner = inner;
         }
 
-        public IEnumerator<JsonDocument> GetEnumerator()
+        public IEnumerator<JToken> GetEnumerator()
         {
             return _inner.GetEnumerator();
         }
@@ -26,7 +27,7 @@ namespace Medea.Client
 
         public string ToNdjson()
         {
-            return string.Join("\n", _inner.Select(row => row.RootElement.ToString()));
+            return string.Join("\n", _inner.Select(record => record.ToString(Formatting.None)));
         }
     }
 }

@@ -1,8 +1,7 @@
 using NUnit.Framework;
 using Medea.Client;
-using System.Text.Json;
-using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Medea.Test.Client
 {
@@ -14,7 +13,7 @@ namespace Medea.Test.Client
         public void Setup()
         {
             _query = new Query("RETURN 1;");
-            _query.Results = new Results(new List<JsonDocument>() { JsonDocument.Parse("1") });
+            _query.Results = new Results(new List<JToken>() { new JValue(1) });
         }
 
         [Test]

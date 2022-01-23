@@ -1,10 +1,8 @@
-using System.Linq;
-using System.Text.Json;
 using Hime.Redist;
 using Medea.Core.Parser;
 using NUnit.Framework;
 
-namespace Tests
+namespace Medea.Test.Core.Parser
 {
     public class MedeaParserTest
     {
