@@ -23,14 +23,14 @@ namespace Medea.Test.Core.Executor
             var queryPlan = new QueryPlan(
                 new QueryStage(
                     new ConstantExpressionScan(
-                        new List<JToken>() { new JValue("1") }
+                        new List<JToken>() { new JValue(1) }
                     )
                 )
             );
 
             var results = _executor.Execute(queryPlan);
 
-            Assert.AreEqual(new List<JToken>() { new JValue("1") }, results);
+            Assert.AreEqual(new List<JToken>() { new JValue(1) }, results);
         }
     }
 }

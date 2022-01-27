@@ -20,7 +20,7 @@ namespace Medea.Test.Core.Service
         {
             var results = _queryService.Execute("RETURN 1;");
 
-            Assert.AreEqual(new List<JToken>() { new JValue("1") }, results);
+            Assert.AreEqual(new List<JToken>() { new JValue(1) }, results);
         }
     }
 }

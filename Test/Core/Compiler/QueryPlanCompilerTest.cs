@@ -23,7 +23,7 @@ namespace Medea.Test.Core.Compiler
         {
             var queryStage = new QueryStage(
                 new ConstantExpressionScan(
-                    new List<JToken>() { new JValue("1") }
+                    new List<JToken>() { new JValue(1) }
                 )
             );
 

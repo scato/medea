@@ -16,14 +16,6 @@ namespace Medea.Core.Planner
             MedeaParser.Visit(result, visitor);
 
             return visitor.QueryPlan;
-
-            return new QueryPlan(
-                new QueryStage(
-                    new ConstantExpressionScan(
-                        new List<JToken>() { new JValue("1") }
-                    )
-                )
-            );
         }
     }
 }

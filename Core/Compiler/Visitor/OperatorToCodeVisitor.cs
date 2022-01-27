@@ -35,7 +35,7 @@ namespace Medea.Core.Compiler.Visitor
 
                 private void Open1()
                 {
-                    _tmp1 = new JToken[] { new JValue(""1"") };
+                    _tmp1 = new JToken[] { new JValue(1) };
                     _tmp2 = false;
                 }
 
