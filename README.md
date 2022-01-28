@@ -4,14 +4,21 @@
 My JSON database side project
 
 # Dependencies
-Medea depends on [.NET Core 3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) and runs on [MiniKube](https://minikube.sigs.k8s.io/docs/start/). MiniKube takes quite a bit of work to set up, especially if it turns out your BIOS doesn't support Hypervisor.
-
-FAIL: I can't get MiniKube to work because my laptop doesn't support virtualization :(
+Medea depends on [.NET Core 3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) and runs on [MiniKube](https://minikube.sigs.k8s.io/docs/start/). MiniKube takes quite a bit of work to set up. If you are on Windows and unable to use Docker Desktop, I can only tell you Hyper-V is probably your best shot, and it will be a pain to set up.
 
 ## Running tests
-To run the tests using MiniKube, follow these steps:
+To run the tests using MiniKube, run PowerShell as Administrator and call these scripts:
 
 ```
-minikube start
-minikube kubectl -- ???
+.\MiniKube\Setup.ps1
+.\MiniKube\Test.ps1
+```
+
+Or, you can go to the directories and run the tests outside of MiniKube:
+
+```
+cd Test
+dotnet test
+cd ..\Spec
+dotnet test
 ```
