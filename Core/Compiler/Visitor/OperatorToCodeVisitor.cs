@@ -1,62 +1,73 @@
 using Medea.Core.Planner;
 using Medea.Core.Planner.Operator;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Medea.Core.Compiler.Visitor
 {
-    public class OperatorToCodeVisitor : IOperatorVisitor
+    public class OperatorToClassBodyVisitor : IOperatorVisitor
     {
-        public object ClassBody { get; set; }
+        private string _classBody = "";
 
-        public OperatorToCodeVisitor()
+        public string ClassBody => _classBody;
+
+        public OperatorToClassBodyVisitor(IOperator rootOperator)
         {
-            ClassBody = @"
-                public void Open()
-                {
-                    Open1();
-                }
-
-                public IEnumerable<JToken> Next()
-                {
-                    return Next1();
-                }
-
-                public void Close()
-                {
-                    Close1();
-                }
+            var id = rootOperator.Id;
+            
+            _classBody = @$"
+                public IEnumerable<JToken> Execute()
+                {{
+                    return Execute{id}();
+                }}
             ";
         }
 
-        public void Visit(ConstantExpressionScan queryOperator)
+        public void Visit(ConstantExpressionScan constantExpressionScan)
         {
-            ClassBody += @"
-                private JToken[] _tmp1;
-                private bool _tmp2;
+            var id = constantExpressionScan.Id;
 
-                private void Open1()
-                {
-                    _tmp1 = new JToken[] { new JValue(1) };
-                    _tmp2 = false;
-                }
-
-                private IEnumerable<JToken> Next1()
-                {
-                    if (!_tmp2)
-                    {
-                        _tmp2 = true;
-                        return _tmp1;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-
-                private void Close1()
-                {
-                    _tmp1 = null;
-                }
+            _classBody += @$"
+                private IEnumerable<JToken> Execute{id}()
+                {{
+                    return new JToken[] {{ new JValue(1) }};
+                }}
             ";
         }
+
+        public void Visit(FileScan fileScan)
+        {
+            var id = fileScan.Id;
+            var dataId = fileScan.DataPattern.Id;
+
+            var fileNameNode = SyntaxFactory.Literal("Fixtures/example.txt");
+            var fileNameString = fileNameNode.ToFullString();
+
+            var visitor = new PatternToMatchingMethodVisitor(fileScan.DataPattern);
+            fileScan.DataPattern.Accept(visitor);
+
+            _classBody += @$"
+                {visitor.MatchingMethod}
+
+                private IEnumerable<JToken> Execute{id}()
+                {{
+                    var output1 = new List<JToken>() {{
+                        new JValue(System.IO.File.ReadAllText({fileNameString}))
+                    }};
+
+                    foreach (var record in output1)
+                    {{
+                        foreach (var output{dataId} in _match{dataId}(record))
+                        {{
+                            yield return output{dataId};
+                        }}
+                    }}
+                }}
+            ";
+        }
+
+        public void Visit(Project project)
+        {
+            throw new System.NotImplementedException();
+       }
     }
 }

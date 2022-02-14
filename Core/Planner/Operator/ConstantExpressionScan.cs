@@ -5,11 +5,13 @@ namespace Medea.Core.Planner.Operator
 {
     public class ConstantExpressionScan : IOperator
     {
-        private IEnumerable<JToken> _records;
+        public int Id { get; private set; }
+        private IExpression _expression;
 
-        public ConstantExpressionScan(IEnumerable<JToken> records)
+        public ConstantExpressionScan(int id, IExpression expression)
         {
-            this._records = records;
+            Id = id;
+            this._expression = expression;
         }
 
         public void Accept(IOperatorVisitor visitor)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Medea.Core.Executor;
 using Medea.Core.Planner;
+using Medea.Core.Planner.Expression;
 using Medea.Core.Planner.Operator;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -23,7 +24,8 @@ namespace Medea.Test.Core.Executor
             var queryPlan = new QueryPlan(
                 new QueryStage(
                     new ConstantExpressionScan(
-                        new List<JToken>() { new JValue(1) }
+                        1,
+                        new NumericLiteral(1, "1")
                     )
                 )
             );

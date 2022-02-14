@@ -35,21 +35,17 @@ namespace Medea.Core.Parser
 			/// </summary>
 			public const int TerminalSeparator = 0x0004;
 			/// <summary>
-			/// The unique identifier for terminal INTEGER
-			/// </summary>
-			public const int TerminalInteger = 0x0005;
-			/// <summary>
-			/// The unique identifier for terminal FRACTION
-			/// </summary>
-			public const int TerminalFraction = 0x0006;
-			/// <summary>
-			/// The unique identifier for terminal EXPONENT
-			/// </summary>
-			public const int TerminalExponent = 0x0007;
-			/// <summary>
 			/// The unique identifier for terminal NUMBER
 			/// </summary>
-			public const int TerminalNumber = 0x0008;
+			public const int TerminalNumber = 0x0005;
+			/// <summary>
+			/// The unique identifier for terminal STRING
+			/// </summary>
+			public const int TerminalString = 0x0006;
+			/// <summary>
+			/// The unique identifier for terminal IDENTIFIER
+			/// </summary>
+			public const int TerminalIdentifier = 0x0007;
 		}
 		/// <summary>
 		/// Contains the constant IDs for the contexts for this lexer
@@ -74,12 +70,15 @@ namespace Medea.Core.Parser
 			new Symbol(0x0002, "$"),
 			new Symbol(0x0003, "WHITE_SPACE"),
 			new Symbol(0x0004, "SEPARATOR"),
-			new Symbol(0x0005, "INTEGER"),
-			new Symbol(0x0006, "FRACTION"),
-			new Symbol(0x0007, "EXPONENT"),
-			new Symbol(0x0008, "NUMBER"),
-			new Symbol(0x0011, ";"),
-			new Symbol(0x0012, "'RETURN") };
+			new Symbol(0x0005, "NUMBER"),
+			new Symbol(0x0006, "STRING"),
+			new Symbol(0x0007, "IDENTIFIER"),
+			new Symbol(0x0017, ";"),
+			new Symbol(0x0019, "'LOAD"),
+			new Symbol(0x001A, "'RAW"),
+			new Symbol(0x001B, "'FROM"),
+			new Symbol(0x001C, "'AS"),
+			new Symbol(0x001D, "'RETURN") };
 		/// <summary>
 		/// Initializes a new instance of the lexer
 		/// </summary>

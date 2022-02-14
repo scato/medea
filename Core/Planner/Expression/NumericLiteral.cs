@@ -1,7 +1,12 @@
 namespace Medea.Core.Planner.Expression
 {
-    class NumericLiteral : IExpression
+    public class NumericLiteral : IExpression
     {
+        public int Id { get; private set; }
 
+        public NumericLiteral(int id, string value)
+        {
+            this.Id = id;
+        }
     }
 }

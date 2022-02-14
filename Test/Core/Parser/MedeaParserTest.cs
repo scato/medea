@@ -18,6 +18,8 @@ namespace Medea.Test.Core.Parser
             var parser = new MedeaParser(lexer);
             var result = parser.Parse();
 
+            Assert.IsTrue(result.IsSuccess);
+
             var script = result.Root;
             Assert.AreEqual("Script", script.Symbol.Name);
 

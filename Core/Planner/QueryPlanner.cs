@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
+using Hime.Redist;
 using Medea.Core.Parser;
-using Medea.Core.Planner.Operator;
 using Medea.Core.Planner.Visitor;
-using Newtonsoft.Json.Linq;
 
 namespace Medea.Core.Planner
 {
     public class QueryPlanner
     {
-        public QueryPlan CreatePlan(Hime.Redist.ParseResult result)
+        public QueryPlan CreatePlan(ParseResult result)
         {
             var visitor = new NodeToOperatorVisitor();
 

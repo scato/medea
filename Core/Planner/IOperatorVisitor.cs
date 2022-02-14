@@ -4,6 +4,8 @@ namespace Medea.Core.Planner
 {
     public interface IOperatorVisitor
     {
-        void Visit(ConstantExpressionScan queryOperator);
+        void Visit(ConstantExpressionScan constantExpressionScan);
+        void Visit(FileScan fileScan);
+        void Visit(Project project);
     }
 }

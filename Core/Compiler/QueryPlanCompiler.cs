@@ -24,22 +24,22 @@ namespace Medea.Core.Compiler
         {
             string className = GenerateClassName();
 
-            var visitor = new OperatorToCodeVisitor();
+            var visitor = new OperatorToClassBodyVisitor(queryStage.RootNode);
             queryStage.RootNode.Accept(visitor);
             var classBody = visitor.ClassBody;
 
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@"
+            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@$"
                 using Medea.Core.Compiler;
                 using System.Collections.Generic;
                 using Newtonsoft.Json.Linq;
 
                 namespace Medea.CompiledCode
-                {
-                    public class " + className + @" : ICompiledQueryStage
-                    {
-                        " + classBody + @"
-                    }
-                }
+                {{
+                    public class {className} : ICompiledQueryStage
+                    {{
+                        {classBody}
+                    }}
+                }}
             ");
 
             CSharpCompilation compilation = CreateCompilation(syntaxTree);
@@ -76,11 +76,36 @@ namespace Medea.Core.Compiler
                         .Single()
                         .Location
                 ),
+                MetadataReference.CreateFromFile(
+                    AppDomain
+                        .CurrentDomain
+                        .GetAssemblies()
+                        .Where(a => a.FullName.StartsWith("System.Linq.Expressions, "))
+                        .Single()
+                        .Location
+                ),
+                MetadataReference.CreateFromFile(
+                    AppDomain
+                        .CurrentDomain
+                        .GetAssemblies()
+                        .Where(a => a.FullName.StartsWith("System.ComponentModel.TypeConverter, "))
+                        .Single()
+                        .Location
+                ),
+                MetadataReference.CreateFromFile(
+                    AppDomain
+                        .CurrentDomain
+                        .GetAssemblies()
+                        .Where(a => a.FullName.StartsWith("System.ObjectModel, "))
+                        .Single()
+                        .Location
+                ),
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(ICompiledQueryStage).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(JToken).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Uri).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ReadOnlySequence<>).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(ReadOnlySequence<>).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(File).Assembly.Location)
             };
 
             return CSharpCompilation.Create(

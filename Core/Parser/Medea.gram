@@ -11,16 +11,15 @@ grammar Medea
 
     terminals
     {
-        WHITE_SPACE -> U+0020 | U+0009 | U+000B | U+000C ;
+        WHITE_SPACE -> U+0020 | U+0009 | U+000B | U+000C;
         SEPARATOR   -> WHITE_SPACE+;
 
-        INTEGER  -> [0-9]
-                  | [1-9] [0-9]*
-                  | '-' [0-9]
-                  | '-' [1-9] [0-9]*;
-        FRACTION -> '.' [0-9]*;
-        EXPONENT -> [Ee] [+-] [0-9]*;
-        NUMBER   -> INTEGER FRACTION? EXPONENT?;
+        NUMBER -> '-'? ('0' | [1-9] [0-9]*) ('.' [0-9]*)? ([Ee] [+-] [0-9]*)?;
+
+        STRING -> '"' ([^"\\\n\r] | ('\\' .))* '"'
+                | '\'' ([^'\\\n\r] | ('\\' .))* '\'';
+
+        IDENTIFIER -> (uc{L} | uc{Nl} | '$' | '_') (uc{L} | uc{Nl} | uc{Mn} | uc{Mc} | uc{Nd} | uc{Pc} | '$')*;
     }
 
     rules
@@ -29,13 +28,36 @@ grammar Medea
 
         // see https://s3.amazonaws.com/artifacts.opencypher.org/M18/railroad/Cypher.html#Query
         Statement -> Query^;
+
+        Query -> ReadingClause+ UpdatingClause?;
         Query -> UpdatingClause;
+
+        ReadingClause -> Load^;
+
+        Load -> ~'LOAD'! (~'RAW') ~'FROM'! Pattern ~'AS'! Pattern;
+
         UpdatingClause -> Return^;
+
         Return -> ~'RETURN'! Expression;
 
+        // see https://tc39.es/ecma262/#sec-destructuring-assignment
+        Pattern -> PrimaryPattern^;
+
+        PrimaryPattern -> IdentifierReference^;
+        PrimaryPattern -> Literal^;
+
         // see https://tc39.es/ecma262/#prod-Expression
-        Expression -> Literal^;
+        Expression -> PrimaryExpression^;
+
+        PrimaryExpression -> IdentifierReference^;
+        PrimaryExpression -> Literal^;
+
+        IdentifierReference -> IDENTIFIER;
+
         Literal -> NumericLiteral^;
+        Literal -> StringLiteral^;
+
         NumericLiteral -> NUMBER;
+        StringLiteral -> STRING;
     }
 }

@@ -2,11 +2,11 @@ namespace Medea.Core.Planner
 {
     public class QueryStage
     {
-        public IOperator RootNode;
+        public IOperator RootNode { get; private set; }
 
-        public QueryStage(IOperator _rootNode)
+        public QueryStage(IOperator rootNode)
         {
-            this.RootNode = _rootNode;
+            this.RootNode = rootNode;
         }
     }
 }

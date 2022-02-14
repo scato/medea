@@ -23,16 +23,7 @@ namespace Medea.Core.Executor
             {
                 var compiledQueryStage = _compiler.CompileQueryStage(queryStage);
 
-                compiledQueryStage.Open();
-
-                var next = compiledQueryStage.Next();
-                while (next != null)
-                {
-                    result.AddRange(next);
-                    next = compiledQueryStage.Next();
-                }
-                
-                compiledQueryStage.Close();
+                result.AddRange(compiledQueryStage.Execute());
             }
 
             return result;

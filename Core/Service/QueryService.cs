@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Medea.Core.Executor;
 using Medea.Core.Parser;
 using Medea.Core.Planner;
@@ -23,6 +25,13 @@ namespace Medea.Core.Service
             var lexer = new MedeaLexer(queryString);
             var parser = new MedeaParser(lexer);
             var result = parser.Parse();
+
+            if (!result.IsSuccess)
+            {
+                throw new AggregateException(
+                    result.Errors.Select(e => new ArgumentException(e.Message))
+                );
+            }
             
             var queryPlan = _planner.CreatePlan(result);
             var results = _executor.Execute(queryPlan);

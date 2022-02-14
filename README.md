@@ -22,3 +22,9 @@ dotnet test
 cd ..\Spec
 dotnet test
 ```
+
+## Updating the parser
+
+The parser is generated with [Hime](https://cenotelie.fr/projects/hime). There are several ways to install the
+Hime SDK. One of them is by adding the "Hime Language Support" extension to Visual Studio Code. If you open the
+grammar file, it will give you a tiny link called "Compile" on top of the page. Click this link to update the grammar.
