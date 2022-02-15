@@ -8,18 +8,21 @@ namespace Medea.Client.Adapter
     {
         public IAdapter Create(string uriString)
         {
-            var uri = new Medea.Client.Adapter.Uri(uriString);
+            var uri = new Uri(uriString);
 
-            if (uri.IsData)
+            switch (uri.Scheme)
             {
-                var basePath = Path.GetDirectoryName(typeof(AdapterFactory).Assembly.Location);
-                var coreAssembly = Assembly.LoadFrom(Path.Join(basePath, "Medea.Core.dll"));
-                dynamic queryService = coreAssembly.CreateInstance("Medea.Core.Service.QueryService");
+                case "data":
+                    // Search for Medea.Core.dll in the same location as Medea.Client.dll
+                    var basePath = Path.GetDirectoryName(typeof(AdapterFactory).Assembly.Location);
+                    var coreAssembly = Assembly.LoadFrom(Path.Join(basePath, "Medea.Core.dll"));
 
-                return new InMemoryAdapter(queryService);
+                    dynamic queryService = coreAssembly.CreateInstance("Medea.Core.Service.QueryService");
+
+                    return new InMemoryAdapter(queryService);
+                default:
+                    throw new NotImplementedException();
             }
-
-            throw new NotImplementedException();
         }
     }
 }

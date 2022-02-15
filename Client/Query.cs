@@ -2,7 +2,7 @@ namespace Medea.Client
 {
     public class Query
     {
-        public readonly string QueryString;
+        public string QueryString { get; set; }
         public Results Results { get; set; }
 
         public Query(string queryString)

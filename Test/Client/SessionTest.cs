@@ -6,19 +6,14 @@ namespace Medea.Test.Client
 {
     public class SessionTest
     {
-        private Mock<IAdapterFactory> _factoryFake;
         private Mock<IAdapter> _adapterSpy;
         private Session _session;
 
         [SetUp]
         public void Setup()
         {
-            _factoryFake = new Mock<IAdapterFactory>();
             _adapterSpy = new Mock<IAdapter>();
-
-            _factoryFake.Setup(adapter => adapter.Create("data:[]")).Returns(_adapterSpy.Object);
-
-            _session = new Session("data:[]", _factoryFake.Object);
+            _session = new Session(_adapterSpy.Object);
         }
 
         [Test]

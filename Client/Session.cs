@@ -6,13 +6,16 @@ namespace Medea.Client
     {
         private IAdapter _adapter;
 
-        public Session(string uri, IAdapterFactory factory)
+        public Session(IAdapter adapter)
         {
-            _adapter = factory.Create(uri);
+            _adapter = adapter;
         }
 
-        public Session(string uri) : this(uri, new AdapterFactory())
+        public static Session Create(string uri)
         {
+            var factory = new AdapterFactory();
+
+            return new Session(factory.Create(uri));
         }
 
         public Query Query(string queryString)

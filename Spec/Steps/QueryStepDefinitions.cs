@@ -20,7 +20,7 @@ namespace Medea.Spec.Steps
         [Given(@"an empty database")]
         public void GivenAnEmptyDatabase()
         {
-            _session = new Session("data:[]");
+            _session = Session.Create("data:[]");
         }
 
         [When(@"I execute")]
