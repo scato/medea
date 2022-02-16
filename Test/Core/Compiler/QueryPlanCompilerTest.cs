@@ -1,5 +1,6 @@
 using System.Linq;
 using Medea.Core.Compiler;
+using Medea.Core.JavaScript;
 using Medea.Core.Planner;
 using Medea.Core.Planner.Expression;
 using Medea.Core.Planner.Operator;
@@ -28,6 +29,7 @@ namespace Medea.Test.Core.Compiler
             );
 
             var compiledStage = _compiler.CompileQueryStage(queryStage);
+            compiledStage.JavaScript = new JavaScriptFacade();
             var result = compiledStage.Execute().ToList();
 
             Assert.AreEqual(1, result.Count());

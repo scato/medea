@@ -6,12 +6,12 @@ namespace Medea.Core.Planner.Operator
     public class ConstantExpressionScan : IOperator
     {
         public int Id { get; private set; }
-        private IExpression _expression;
+        public IExpression Expression { get; private set; }
 
         public ConstantExpressionScan(int id, IExpression expression)
         {
             Id = id;
-            this._expression = expression;
+            Expression = expression;
         }
 
         public void Accept(IOperatorVisitor visitor)

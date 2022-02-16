@@ -26,11 +26,12 @@ namespace Medea.Core.Compiler
 
             var visitor = new OperatorToClassBodyVisitor(queryStage.RootNode);
             queryStage.RootNode.Accept(visitor);
-            var classBody = visitor.ClassBody;
+            var classBody = visitor.Result;
 
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@$"
-                using Medea.Core.Compiler;
                 using System.Collections.Generic;
+                using Medea.Core.Compiler;
+                using Medea.Core.JavaScript;
                 using Newtonsoft.Json.Linq;
 
                 namespace Medea.CompiledCode

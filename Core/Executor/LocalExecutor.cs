@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Medea.Core.Compiler;
+using Medea.Core.JavaScript;
 using Medea.Core.Planner;
 using Newtonsoft.Json.Linq;
 
@@ -22,6 +22,7 @@ namespace Medea.Core.Executor
             foreach (var queryStage in queryPlan.QueryStages)
             {
                 var compiledQueryStage = _compiler.CompileQueryStage(queryStage);
+                compiledQueryStage.JavaScript = new JavaScriptFacade();
 
                 result.AddRange(compiledQueryStage.Execute());
             }

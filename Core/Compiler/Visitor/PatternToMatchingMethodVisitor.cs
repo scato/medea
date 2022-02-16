@@ -10,7 +10,7 @@ namespace Medea.Core.Compiler.Visitor
         private int _rootId;
         private List<string> _properties = new List<string>();
 
-        public string MatchingMethod => $@"
+        public string Result => $@"
             private IEnumerable<JToken> _match{_rootId}(JToken input{_rootId})
             {{
                 yield return new JObject({string.Join(", ", _properties)});

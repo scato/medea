@@ -11,6 +11,11 @@ namespace Medea.Core.Planner.Expression
             this.Id = id;
         }
 
+        public void Accept(IExpressionVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Accept(IPatternVisitor visitor)
         {
             visitor.Accept(this);

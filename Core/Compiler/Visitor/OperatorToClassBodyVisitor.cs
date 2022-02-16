@@ -6,15 +6,17 @@ namespace Medea.Core.Compiler.Visitor
 {
     public class OperatorToClassBodyVisitor : IOperatorVisitor
     {
-        private string _classBody = "";
+        private string _classBody;
 
-        public string ClassBody => _classBody;
+        public string Result => _classBody;
 
         public OperatorToClassBodyVisitor(IOperator rootOperator)
         {
             var id = rootOperator.Id;
             
             _classBody = @$"
+                public JavaScriptFacade JavaScript {{ get; set; }}
+
                 public IEnumerable<JToken> Execute()
                 {{
                     return Execute{id}();
@@ -26,10 +28,21 @@ namespace Medea.Core.Compiler.Visitor
         {
             var id = constantExpressionScan.Id;
 
+            var visitor = new ExpressionToJavaScriptVisitor();
+            constantExpressionScan.Expression.Accept(visitor);
+            var expressionNode = SyntaxFactory.Literal(visitor.Result);
+            var expressionString = expressionNode.ToFullString();
+
             _classBody += @$"
                 private IEnumerable<JToken> Execute{id}()
                 {{
-                    return new JToken[] {{ new JValue(1) }};
+                    var expression = {expressionString};
+                    var input = new JObject();
+
+                    return new JToken[]
+                    {{
+                        JavaScript.Evaluate(expression, input)
+                    }};
                 }}
             ";
         }
@@ -46,7 +59,7 @@ namespace Medea.Core.Compiler.Visitor
             fileScan.DataPattern.Accept(visitor);
 
             _classBody += @$"
-                {visitor.MatchingMethod}
+                {visitor.Result}
 
                 private IEnumerable<JToken> Execute{id}()
                 {{
@@ -68,6 +81,6 @@ namespace Medea.Core.Compiler.Visitor
         public void Visit(Project project)
         {
             throw new System.NotImplementedException();
-       }
+        }
     }
 }

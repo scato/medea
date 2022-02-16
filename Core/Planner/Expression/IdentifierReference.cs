@@ -13,6 +13,11 @@ namespace Medea.Core.Planner.Expression
             this.Value = value;
         }
 
+        public void Accept(IExpressionVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Accept(IPatternVisitor visitor)
         {
             visitor.Accept(this);

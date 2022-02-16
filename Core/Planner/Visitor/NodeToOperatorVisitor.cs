@@ -4,7 +4,6 @@ using Hime.Redist;
 using Medea.Core.Parser;
 using Medea.Core.Planner.Expression;
 using Medea.Core.Planner.Operator;
-using Newtonsoft.Json.Linq;
 
 namespace Medea.Core.Planner.Visitor
 {
