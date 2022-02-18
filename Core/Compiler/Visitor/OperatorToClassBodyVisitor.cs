@@ -13,9 +13,10 @@ namespace Medea.Core.Compiler.Visitor
         public OperatorToClassBodyVisitor(IOperator rootOperator)
         {
             var id = rootOperator.Id;
-            
+
             _classBody = @$"
                 public JavaScriptFacade JavaScript {{ get; set; }}
+                public FileStorageFacade FileStorage {{ get; set; }}
 
                 public IEnumerable<JToken> Execute()
                 {{
@@ -24,24 +25,39 @@ namespace Medea.Core.Compiler.Visitor
             ";
         }
 
+        private string StringToCSharp(string value)
+        {
+            return SyntaxFactory.Literal(value).ToFullString();
+        }
+
+        private string ExpressionToJavaScript(IExpression expression)
+        {
+            var visitor = new ExpressionToJavaScriptVisitor();
+            expression.Accept(visitor);
+            return visitor.Result;
+        }
+
+        private string PatternToMatchMethod(IPattern pattern)
+        {
+            var visitor = new PatternToMatchMethodVisitor(pattern);
+            pattern.Accept(visitor);
+            return visitor.Result;
+        }
+
         public void Visit(ConstantExpressionScan constantExpressionScan)
         {
             var id = constantExpressionScan.Id;
 
-            var visitor = new ExpressionToJavaScriptVisitor();
-            constantExpressionScan.Expression.Accept(visitor);
-            var expressionNode = SyntaxFactory.Literal(visitor.Result);
-            var expressionString = expressionNode.ToFullString();
+            var expressionLiteral = StringToCSharp(
+                ExpressionToJavaScript(constantExpressionScan.Expression)
+            );
 
             _classBody += @$"
                 private IEnumerable<JToken> Execute{id}()
                 {{
-                    var expression = {expressionString};
-                    var input = new JObject();
-
                     return new JToken[]
                     {{
-                        JavaScript.Evaluate(expression, input)
+                        JavaScript.Evaluate({expressionLiteral}, new JObject())
                     }};
                 }}
             ";
@@ -50,28 +66,38 @@ namespace Medea.Core.Compiler.Visitor
         public void Visit(FileScan fileScan)
         {
             var id = fileScan.Id;
+
+            var format = fileScan.Format;
+
+            var pathId = fileScan.PathPattern.Id;
+            var globExpression = fileScan.PathPattern.ToGlobExpression();
+            var globLiteral = StringToCSharp(
+                ExpressionToJavaScript(globExpression)
+            );
+            var pathMatchMethod = PatternToMatchMethod(fileScan.PathPattern);
+
             var dataId = fileScan.DataPattern.Id;
-
-            var fileNameNode = SyntaxFactory.Literal("Fixtures/example.txt");
-            var fileNameString = fileNameNode.ToFullString();
-
-            var visitor = new PatternToMatchingMethodVisitor(fileScan.DataPattern);
-            fileScan.DataPattern.Accept(visitor);
+            var dataMatchMethod = PatternToMatchMethod(fileScan.DataPattern);
 
             _classBody += @$"
-                {visitor.Result}
+                {pathMatchMethod}
+                {dataMatchMethod}
 
                 private IEnumerable<JToken> Execute{id}()
                 {{
-                    var output1 = new List<JToken>() {{
-                        new JValue(System.IO.File.ReadAllText({fileNameString}))
-                    }};
+                    var glob = (JValue) JavaScript.Evaluate({globLiteral}, new JObject());
 
-                    foreach (var record in output1)
+                    foreach (var path in FileStorage.List((string) glob.Value))
                     {{
-                        foreach (var output{dataId} in _match{dataId}(record))
+                        foreach (var output{pathId} in Match{pathId}(path))
                         {{
-                            yield return output{dataId};
+                            foreach (var record in FileStorage.Read(path, FileStorageFormat.{format}))
+                            {{
+                                foreach (var output{dataId} in Match{dataId}(record))
+                                {{
+                                    yield return output{dataId};
+                                }}
+                            }}
                         }}
                     }}
                 }}

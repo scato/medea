@@ -12,7 +12,7 @@ namespace Medea.Core.Planner.Visitor
         private int _nextId = 1;
         private Stack<IQueryPlanNode> _stack = new Stack<IQueryPlanNode>();
 
-        public QueryPlan QueryPlan
+        public QueryPlan Result
         {
             get
             {
@@ -33,10 +33,11 @@ namespace Medea.Core.Planner.Visitor
         public override void OnVariableLoad(ASTNode node)
         {
             var id = _nextId++;
+            var format = node.Children[0].Value.ToUpper();
             var dataPattern = (IPattern) _stack.Pop();
-            var fileNamePattern = (IPattern) _stack.Pop();
+            var pathPattern = (IStringPattern) _stack.Pop();
 
-            _stack.Push(new FileScan(id, fileNamePattern, dataPattern));
+            _stack.Push(new FileScan(id, format, pathPattern, dataPattern));
         }
 
         public override void OnVariableIdentifierReference(ASTNode node)

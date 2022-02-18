@@ -73,12 +73,12 @@ namespace Medea.Core.Parser
 			new Symbol(0x0005, "NUMBER"),
 			new Symbol(0x0006, "STRING"),
 			new Symbol(0x0007, "IDENTIFIER"),
-			new Symbol(0x0017, ";"),
-			new Symbol(0x0019, "'LOAD"),
-			new Symbol(0x001A, "'RAW"),
-			new Symbol(0x001B, "'FROM"),
-			new Symbol(0x001C, "'AS"),
-			new Symbol(0x001D, "'RETURN") };
+			new Symbol(0x0018, ";"),
+			new Symbol(0x001A, "'LOAD"),
+			new Symbol(0x001B, "'RAW"),
+			new Symbol(0x001C, "'FROM"),
+			new Symbol(0x001D, "'AS"),
+			new Symbol(0x001E, "'RETURN") };
 		/// <summary>
 		/// Initializes a new instance of the lexer
 		/// </summary>

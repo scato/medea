@@ -5,8 +5,8 @@ namespace Medea.Core.Planner.Operator
 {
     public class ConstantExpressionScan : IOperator
     {
-        public int Id { get; private set; }
-        public IExpression Expression { get; private set; }
+        public int Id { get; }
+        public IExpression Expression { get; }
 
         public ConstantExpressionScan(int id, IExpression expression)
         {

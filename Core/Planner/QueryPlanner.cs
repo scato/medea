@@ -12,7 +12,7 @@ namespace Medea.Core.Planner
 
             MedeaParser.Visit(result, visitor);
 
-            return visitor.QueryPlan;
+            return visitor.Result;
         }
     }
 }

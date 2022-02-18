@@ -31,6 +31,7 @@ namespace Medea.Core.Compiler
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@$"
                 using System.Collections.Generic;
                 using Medea.Core.Compiler;
+                using Medea.Core.FileStorage;
                 using Medea.Core.JavaScript;
                 using Newtonsoft.Json.Linq;
 
@@ -126,6 +127,7 @@ namespace Medea.Core.Compiler
                 if (!result.Success)
                 {
                     throw new AggregateException(
+                        $"Unable to parse query stage: {compilation.SyntaxTrees.Single().ToString()}",
                         result.Diagnostics.Select(diagnostic => new ArgumentException(diagnostic.ToString()))
                     );
                 }

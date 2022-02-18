@@ -34,7 +34,7 @@ grammar Medea
 
         ReadingClause -> Load^;
 
-        Load -> ~'LOAD'! (~'RAW') ~'FROM'! Pattern ~'AS'! Pattern;
+        Load -> ~'LOAD'! (~'RAW') ~'FROM'! StringPattern ~'AS'! Pattern;
 
         UpdatingClause -> Return^;
 
@@ -45,6 +45,10 @@ grammar Medea
 
         PrimaryPattern -> IdentifierReference^;
         PrimaryPattern -> Literal^;
+
+        // StringPattern is a specific pattern type for Load and TemplatePattern
+        StringPattern -> IdentifierReference^;
+        StringPattern -> StringLiteral^;
 
         // see https://tc39.es/ecma262/#prod-Expression
         Expression -> PrimaryExpression^;

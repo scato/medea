@@ -2,8 +2,8 @@ namespace Medea.Core.Planner.Operator
 {
     public class Project : IOperator
     {
-        public int Id { get; private set; }
-        public IOperator Source { get; private set; }
+        public int Id { get; }
+        public IOperator Source { get; }
 
         public Project(int id, IOperator source)
         {

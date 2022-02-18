@@ -11,6 +11,11 @@ namespace Medea.Core.Compiler.Visitor
 
         public string Result => _stack.Single();
 
+        public void Accept(StringLiteral stringLiteral)
+        {
+            _stack.Push(stringLiteral.Value);
+        }
+
         public void Accept(NumericLiteral numericLiteral)
         {
             _stack.Push(numericLiteral.Value);

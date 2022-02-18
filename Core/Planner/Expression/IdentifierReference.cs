@@ -2,15 +2,15 @@ using Medea.Core.Compiler.Visitor;
 
 namespace Medea.Core.Planner.Expression
 {
-    public class IdentifierReference : IExpression, IPattern
+    public class IdentifierReference : IExpression, IPattern, IStringPattern
     {
-        public int Id { get; private set; }
-        public string Value { get; private set; }
+        public int Id { get; }
+        public string Value { get; }
 
         public IdentifierReference(int id, string value)
         {
-            this.Id = id;
-            this.Value = value;
+            Id = id;
+            Value = value;
         }
 
         public void Accept(IExpressionVisitor visitor)
@@ -21,6 +21,11 @@ namespace Medea.Core.Planner.Expression
         public void Accept(IPatternVisitor visitor)
         {
             visitor.Accept(this);
+        }
+
+        public IExpression ToGlobExpression()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

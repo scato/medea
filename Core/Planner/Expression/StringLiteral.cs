@@ -2,23 +2,30 @@ using Medea.Core.Compiler.Visitor;
 
 namespace Medea.Core.Planner.Expression
 {
-    public class StringLiteral : IExpression, IPattern
+    public class StringLiteral : IExpression, IPattern, IStringPattern
     {
-        public int Id { get; private set; }
+        public int Id { get; }
+        public string Value { get; }
 
         public StringLiteral(int id, string value)
         {
-            this.Id = id;
+            Id = id;
+            Value = value;
         }
 
         public void Accept(IExpressionVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Accept(this);
         }
 
         public void Accept(IPatternVisitor visitor)
         {
             visitor.Accept(this);
+        }
+
+        public IExpression ToGlobExpression()
+        {
+            return this;
         }
     }
 }

@@ -5,5 +5,6 @@ namespace Medea.Core.Planner
     public interface IExpressionVisitor
     {
         void Accept(NumericLiteral numericLiteral);
+        void Accept(StringLiteral stringLiteral);
     }
 }

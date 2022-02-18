@@ -62,29 +62,33 @@ namespace Medea.Core.Parser
 			/// </summary>
 			public const int VariablePrimaryPattern = 0x0010;
 			/// <summary>
+			/// The unique identifier for variable StringPattern
+			/// </summary>
+			public const int VariableStringPattern = 0x0011;
+			/// <summary>
 			/// The unique identifier for variable Expression
 			/// </summary>
-			public const int VariableExpression = 0x0011;
+			public const int VariableExpression = 0x0012;
 			/// <summary>
 			/// The unique identifier for variable PrimaryExpression
 			/// </summary>
-			public const int VariablePrimaryExpression = 0x0012;
+			public const int VariablePrimaryExpression = 0x0013;
 			/// <summary>
 			/// The unique identifier for variable IdentifierReference
 			/// </summary>
-			public const int VariableIdentifierReference = 0x0013;
+			public const int VariableIdentifierReference = 0x0014;
 			/// <summary>
 			/// The unique identifier for variable Literal
 			/// </summary>
-			public const int VariableLiteral = 0x0014;
+			public const int VariableLiteral = 0x0015;
 			/// <summary>
 			/// The unique identifier for variable NumericLiteral
 			/// </summary>
-			public const int VariableNumericLiteral = 0x0015;
+			public const int VariableNumericLiteral = 0x0016;
 			/// <summary>
 			/// The unique identifier for variable StringLiteral
 			/// </summary>
-			public const int VariableStringLiteral = 0x0016;
+			public const int VariableStringLiteral = 0x0017;
 		}
 		/// <summary>
 		/// The collection of variables matched by this parser
@@ -103,14 +107,15 @@ namespace Medea.Core.Parser
 			new Symbol(0x000E, "Return"), 
 			new Symbol(0x000F, "Pattern"), 
 			new Symbol(0x0010, "PrimaryPattern"), 
-			new Symbol(0x0011, "Expression"), 
-			new Symbol(0x0012, "PrimaryExpression"), 
-			new Symbol(0x0013, "IdentifierReference"), 
-			new Symbol(0x0014, "Literal"), 
-			new Symbol(0x0015, "NumericLiteral"), 
-			new Symbol(0x0016, "StringLiteral"), 
-			new Symbol(0x0018, "__V24"), 
-			new Symbol(0x001E, "__VAxiom") };
+			new Symbol(0x0011, "StringPattern"), 
+			new Symbol(0x0012, "Expression"), 
+			new Symbol(0x0013, "PrimaryExpression"), 
+			new Symbol(0x0014, "IdentifierReference"), 
+			new Symbol(0x0015, "Literal"), 
+			new Symbol(0x0016, "NumericLiteral"), 
+			new Symbol(0x0017, "StringLiteral"), 
+			new Symbol(0x0019, "__V25"), 
+			new Symbol(0x001F, "__VAxiom") };
 		/// <summary>
 		/// The collection of virtuals matched by this parser
 		/// </summary>
@@ -146,6 +151,7 @@ namespace Medea.Core.Parser
 			public virtual void OnVariableReturn(ASTNode node) {}
 			public virtual void OnVariablePattern(ASTNode node) {}
 			public virtual void OnVariablePrimaryPattern(ASTNode node) {}
+			public virtual void OnVariableStringPattern(ASTNode node) {}
 			public virtual void OnVariableExpression(ASTNode node) {}
 			public virtual void OnVariablePrimaryExpression(ASTNode node) {}
 			public virtual void OnVariableIdentifierReference(ASTNode node) {}
@@ -189,12 +195,13 @@ namespace Medea.Core.Parser
 				case 0x000E: visitor.OnVariableReturn(node); break;
 				case 0x000F: visitor.OnVariablePattern(node); break;
 				case 0x0010: visitor.OnVariablePrimaryPattern(node); break;
-				case 0x0011: visitor.OnVariableExpression(node); break;
-				case 0x0012: visitor.OnVariablePrimaryExpression(node); break;
-				case 0x0013: visitor.OnVariableIdentifierReference(node); break;
-				case 0x0014: visitor.OnVariableLiteral(node); break;
-				case 0x0015: visitor.OnVariableNumericLiteral(node); break;
-				case 0x0016: visitor.OnVariableStringLiteral(node); break;
+				case 0x0011: visitor.OnVariableStringPattern(node); break;
+				case 0x0012: visitor.OnVariableExpression(node); break;
+				case 0x0013: visitor.OnVariablePrimaryExpression(node); break;
+				case 0x0014: visitor.OnVariableIdentifierReference(node); break;
+				case 0x0015: visitor.OnVariableLiteral(node); break;
+				case 0x0016: visitor.OnVariableNumericLiteral(node); break;
+				case 0x0017: visitor.OnVariableStringLiteral(node); break;
 			}
 		}
 	}
