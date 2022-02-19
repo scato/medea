@@ -11,13 +11,17 @@ grammar Medea
 
     terminals
     {
+        // https://tc39.es/ecma262/#sec-ecmascript-language-lexical-grammar
         WHITE_SPACE -> U+0020 | U+0009 | U+000B | U+000C;
-        SEPARATOR   -> WHITE_SPACE+;
+        LINE_TERMINATOR -> U+000A | U+000D | U+2028 | U+2029;
+        SEPARATOR   -> (WHITE_SPACE | LINE_TERMINATOR)+;
 
         NUMBER -> '-'? ('0' | [1-9] [0-9]*) ('.' [0-9]*)? ([Ee] [+-] [0-9]*)?;
 
         STRING -> '"' ([^"\\\n\r] | ('\\' .))* '"'
                 | '\'' ([^'\\\n\r] | ('\\' .))* '\'';
+
+        REGEXP -> '/' ([^/\\\n\r] | ('\\' .))* '/' (uc{L} | uc{Nl} | '$' | '_')*;
 
         IDENTIFIER -> (uc{L} | uc{Nl} | '$' | '_') (uc{L} | uc{Nl} | uc{Mn} | uc{Mc} | uc{Nd} | uc{Pc} | '$')*;
     }
@@ -51,10 +55,20 @@ grammar Medea
         StringPattern -> StringLiteral^;
 
         // see https://tc39.es/ecma262/#prod-Expression
-        Expression -> PrimaryExpression^;
+        Expression -> CallExpression^;
+
+        CallExpression -> PrimaryExpression ('.'! IDENTIFIER Arguments)+;
+        CallExpression -> PrimaryExpression^;
+
+        Arguments -> '('! ')'!;
+        Arguments -> '('! Argument (','! Argument)* ','!? ')'!;
+        Argument -> Expression^;
+        Argument -> SpreadArgument;
+        SpreadArgument -> '...'! Expression;
 
         PrimaryExpression -> IdentifierReference^;
         PrimaryExpression -> Literal^;
+        PrimaryExpression -> RegularExpressionLiteral^;
 
         IdentifierReference -> IDENTIFIER;
 
@@ -63,5 +77,7 @@ grammar Medea
 
         NumericLiteral -> NUMBER;
         StringLiteral -> STRING;
+
+        RegularExpressionLiteral -> REGEXP;
     }
 }

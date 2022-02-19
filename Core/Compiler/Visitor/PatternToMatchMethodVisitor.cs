@@ -29,7 +29,7 @@ namespace Medea.Core.Compiler.Visitor
             _rootId = rootPattern.Id;
         }
 
-        public void Accept(StringLiteral stringLiteral)
+        public void Visit(StringLiteral stringLiteral)
         {
             var id = stringLiteral.Id;
             var valueJson = stringLiteral.Value;
@@ -46,7 +46,7 @@ namespace Medea.Core.Compiler.Visitor
             );
         }
 
-        public void Accept(IdentifierReference identifierReference)
+        public void Visit(IdentifierReference identifierReference)
         {
             var id = identifierReference.Id;
             var identifier = identifierReference.Value;

@@ -15,12 +15,12 @@ namespace Medea.Core.Planner.Expression
 
         public void Accept(IExpressionVisitor visitor)
         {
-            visitor.Accept(this);
+            visitor.Visit(this);
         }
 
         public void Accept(IPatternVisitor visitor)
         {
-            visitor.Accept(this);
+            visitor.Visit(this);
         }
 
         public IExpression ToGlobExpression()

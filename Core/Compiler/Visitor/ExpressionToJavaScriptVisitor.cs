@@ -11,14 +11,51 @@ namespace Medea.Core.Compiler.Visitor
 
         public string Result => _stack.Single();
 
-        public void Accept(StringLiteral stringLiteral)
+        public void Visit(CallExpression callExpression)
+        {
+            var arguments = _stack.Pop();
+            var identifier = callExpression.Identifier;
+            var subject = _stack.Pop();
+
+            _stack.Push($"{subject}.{identifier}({arguments})");
+        }
+
+        public void Visit(Arguments arguments)
+        {
+            var numExpressions = arguments.Expressions.Length;
+            var expressions = new string[numExpressions];
+
+            for (var i = numExpressions - 1; i >= 0; i--)
+            {
+                expressions[i] = _stack.Pop();
+            }
+
+            _stack.Push(string.Join(", ", expressions));
+        }
+
+        public void Visit(SpreadArgument spreadArgument)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Visit(IdentifierReference identifierReference)
+        {
+            _stack.Push(identifierReference.Value);
+        }
+
+        public void Visit(StringLiteral stringLiteral)
         {
             _stack.Push(stringLiteral.Value);
         }
 
-        public void Accept(NumericLiteral numericLiteral)
+        public void Visit(NumericLiteral numericLiteral)
         {
             _stack.Push(numericLiteral.Value);
+        }
+
+        public void Visit(RegularExpressionLiteral regularExpressionLiteral)
+        {
+            _stack.Push(regularExpressionLiteral.Value);
         }
     }
 }

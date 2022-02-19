@@ -104,9 +104,25 @@ namespace Medea.Core.Compiler.Visitor
             ";
         }
 
-        public void Visit(Project project)
+        public void Visit(Projection projection)
         {
-            throw new System.NotImplementedException();
+            var id = projection.Id;
+
+            var sourceId = projection.Source.Id;
+
+            var expressionLiteral = StringToCSharp(
+                ExpressionToJavaScript(projection.Expression)
+            );
+
+            _classBody += @$"
+                private IEnumerable<JToken> Execute{id}()
+                {{
+                    foreach (var output{sourceId} in Execute{sourceId}())
+                    {{
+                        yield return JavaScript.Evaluate({expressionLiteral}, output{sourceId});
+                    }}
+                }}
+            ";
         }
     }
 }

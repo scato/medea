@@ -28,67 +28,87 @@ namespace Medea.Core.Parser
 			/// <summary>
 			/// The unique identifier for variable Script
 			/// </summary>
-			public const int VariableScript = 0x0008;
+			public const int VariableScript = 0x000A;
 			/// <summary>
 			/// The unique identifier for variable Statement
 			/// </summary>
-			public const int VariableStatement = 0x0009;
+			public const int VariableStatement = 0x000B;
 			/// <summary>
 			/// The unique identifier for variable Query
 			/// </summary>
-			public const int VariableQuery = 0x000A;
+			public const int VariableQuery = 0x000C;
 			/// <summary>
 			/// The unique identifier for variable ReadingClause
 			/// </summary>
-			public const int VariableReadingClause = 0x000B;
+			public const int VariableReadingClause = 0x000D;
 			/// <summary>
 			/// The unique identifier for variable Load
 			/// </summary>
-			public const int VariableLoad = 0x000C;
+			public const int VariableLoad = 0x000E;
 			/// <summary>
 			/// The unique identifier for variable UpdatingClause
 			/// </summary>
-			public const int VariableUpdatingClause = 0x000D;
+			public const int VariableUpdatingClause = 0x000F;
 			/// <summary>
 			/// The unique identifier for variable Return
 			/// </summary>
-			public const int VariableReturn = 0x000E;
+			public const int VariableReturn = 0x0010;
 			/// <summary>
 			/// The unique identifier for variable Pattern
 			/// </summary>
-			public const int VariablePattern = 0x000F;
+			public const int VariablePattern = 0x0011;
 			/// <summary>
 			/// The unique identifier for variable PrimaryPattern
 			/// </summary>
-			public const int VariablePrimaryPattern = 0x0010;
+			public const int VariablePrimaryPattern = 0x0012;
 			/// <summary>
 			/// The unique identifier for variable StringPattern
 			/// </summary>
-			public const int VariableStringPattern = 0x0011;
+			public const int VariableStringPattern = 0x0013;
 			/// <summary>
 			/// The unique identifier for variable Expression
 			/// </summary>
-			public const int VariableExpression = 0x0012;
+			public const int VariableExpression = 0x0014;
+			/// <summary>
+			/// The unique identifier for variable CallExpression
+			/// </summary>
+			public const int VariableCallExpression = 0x0015;
+			/// <summary>
+			/// The unique identifier for variable Arguments
+			/// </summary>
+			public const int VariableArguments = 0x0016;
+			/// <summary>
+			/// The unique identifier for variable Argument
+			/// </summary>
+			public const int VariableArgument = 0x0017;
+			/// <summary>
+			/// The unique identifier for variable SpreadArgument
+			/// </summary>
+			public const int VariableSpreadArgument = 0x0018;
 			/// <summary>
 			/// The unique identifier for variable PrimaryExpression
 			/// </summary>
-			public const int VariablePrimaryExpression = 0x0013;
+			public const int VariablePrimaryExpression = 0x0019;
 			/// <summary>
 			/// The unique identifier for variable IdentifierReference
 			/// </summary>
-			public const int VariableIdentifierReference = 0x0014;
+			public const int VariableIdentifierReference = 0x001A;
 			/// <summary>
 			/// The unique identifier for variable Literal
 			/// </summary>
-			public const int VariableLiteral = 0x0015;
+			public const int VariableLiteral = 0x001B;
 			/// <summary>
 			/// The unique identifier for variable NumericLiteral
 			/// </summary>
-			public const int VariableNumericLiteral = 0x0016;
+			public const int VariableNumericLiteral = 0x001C;
 			/// <summary>
 			/// The unique identifier for variable StringLiteral
 			/// </summary>
-			public const int VariableStringLiteral = 0x0017;
+			public const int VariableStringLiteral = 0x001D;
+			/// <summary>
+			/// The unique identifier for variable RegularExpressionLiteral
+			/// </summary>
+			public const int VariableRegularExpressionLiteral = 0x001E;
 		}
 		/// <summary>
 		/// The collection of variables matched by this parser
@@ -98,24 +118,31 @@ namespace Medea.Core.Parser
 		/// so that variable indices in the automaton can be used to retrieve the variables in this table
 		/// </remarks>
 		private static readonly Symbol[] variables = {
-			new Symbol(0x0008, "Script"), 
-			new Symbol(0x0009, "Statement"), 
-			new Symbol(0x000A, "Query"), 
-			new Symbol(0x000B, "ReadingClause"), 
-			new Symbol(0x000C, "Load"), 
-			new Symbol(0x000D, "UpdatingClause"), 
-			new Symbol(0x000E, "Return"), 
-			new Symbol(0x000F, "Pattern"), 
-			new Symbol(0x0010, "PrimaryPattern"), 
-			new Symbol(0x0011, "StringPattern"), 
-			new Symbol(0x0012, "Expression"), 
-			new Symbol(0x0013, "PrimaryExpression"), 
-			new Symbol(0x0014, "IdentifierReference"), 
-			new Symbol(0x0015, "Literal"), 
-			new Symbol(0x0016, "NumericLiteral"), 
-			new Symbol(0x0017, "StringLiteral"), 
-			new Symbol(0x0019, "__V25"), 
-			new Symbol(0x001F, "__VAxiom") };
+			new Symbol(0x000A, "Script"), 
+			new Symbol(0x000B, "Statement"), 
+			new Symbol(0x000C, "Query"), 
+			new Symbol(0x000D, "ReadingClause"), 
+			new Symbol(0x000E, "Load"), 
+			new Symbol(0x000F, "UpdatingClause"), 
+			new Symbol(0x0010, "Return"), 
+			new Symbol(0x0011, "Pattern"), 
+			new Symbol(0x0012, "PrimaryPattern"), 
+			new Symbol(0x0013, "StringPattern"), 
+			new Symbol(0x0014, "Expression"), 
+			new Symbol(0x0015, "CallExpression"), 
+			new Symbol(0x0016, "Arguments"), 
+			new Symbol(0x0017, "Argument"), 
+			new Symbol(0x0018, "SpreadArgument"), 
+			new Symbol(0x0019, "PrimaryExpression"), 
+			new Symbol(0x001A, "IdentifierReference"), 
+			new Symbol(0x001B, "Literal"), 
+			new Symbol(0x001C, "NumericLiteral"), 
+			new Symbol(0x001D, "StringLiteral"), 
+			new Symbol(0x001E, "RegularExpressionLiteral"), 
+			new Symbol(0x0020, "__V32"), 
+			new Symbol(0x0027, "__V39"), 
+			new Symbol(0x002B, "__V43"), 
+			new Symbol(0x002D, "__VAxiom") };
 		/// <summary>
 		/// The collection of virtuals matched by this parser
 		/// </summary>
@@ -138,9 +165,11 @@ namespace Medea.Core.Parser
 		public class Visitor
 		{
 			public virtual void OnTerminalWhiteSpace(ASTNode node) {}
+			public virtual void OnTerminalLineTerminator(ASTNode node) {}
 			public virtual void OnTerminalSeparator(ASTNode node) {}
 			public virtual void OnTerminalNumber(ASTNode node) {}
 			public virtual void OnTerminalString(ASTNode node) {}
+			public virtual void OnTerminalRegexp(ASTNode node) {}
 			public virtual void OnTerminalIdentifier(ASTNode node) {}
 			public virtual void OnVariableScript(ASTNode node) {}
 			public virtual void OnVariableStatement(ASTNode node) {}
@@ -153,11 +182,16 @@ namespace Medea.Core.Parser
 			public virtual void OnVariablePrimaryPattern(ASTNode node) {}
 			public virtual void OnVariableStringPattern(ASTNode node) {}
 			public virtual void OnVariableExpression(ASTNode node) {}
+			public virtual void OnVariableCallExpression(ASTNode node) {}
+			public virtual void OnVariableArguments(ASTNode node) {}
+			public virtual void OnVariableArgument(ASTNode node) {}
+			public virtual void OnVariableSpreadArgument(ASTNode node) {}
 			public virtual void OnVariablePrimaryExpression(ASTNode node) {}
 			public virtual void OnVariableIdentifierReference(ASTNode node) {}
 			public virtual void OnVariableLiteral(ASTNode node) {}
 			public virtual void OnVariableNumericLiteral(ASTNode node) {}
 			public virtual void OnVariableStringLiteral(ASTNode node) {}
+			public virtual void OnVariableRegularExpressionLiteral(ASTNode node) {}
 		}
 
 		/// <summary>
@@ -182,26 +216,33 @@ namespace Medea.Core.Parser
 			switch(node.Symbol.ID)
 			{
 				case 0x0003: visitor.OnTerminalWhiteSpace(node); break;
-				case 0x0004: visitor.OnTerminalSeparator(node); break;
-				case 0x0005: visitor.OnTerminalNumber(node); break;
-				case 0x0006: visitor.OnTerminalString(node); break;
-				case 0x0007: visitor.OnTerminalIdentifier(node); break;
-				case 0x0008: visitor.OnVariableScript(node); break;
-				case 0x0009: visitor.OnVariableStatement(node); break;
-				case 0x000A: visitor.OnVariableQuery(node); break;
-				case 0x000B: visitor.OnVariableReadingClause(node); break;
-				case 0x000C: visitor.OnVariableLoad(node); break;
-				case 0x000D: visitor.OnVariableUpdatingClause(node); break;
-				case 0x000E: visitor.OnVariableReturn(node); break;
-				case 0x000F: visitor.OnVariablePattern(node); break;
-				case 0x0010: visitor.OnVariablePrimaryPattern(node); break;
-				case 0x0011: visitor.OnVariableStringPattern(node); break;
-				case 0x0012: visitor.OnVariableExpression(node); break;
-				case 0x0013: visitor.OnVariablePrimaryExpression(node); break;
-				case 0x0014: visitor.OnVariableIdentifierReference(node); break;
-				case 0x0015: visitor.OnVariableLiteral(node); break;
-				case 0x0016: visitor.OnVariableNumericLiteral(node); break;
-				case 0x0017: visitor.OnVariableStringLiteral(node); break;
+				case 0x0004: visitor.OnTerminalLineTerminator(node); break;
+				case 0x0005: visitor.OnTerminalSeparator(node); break;
+				case 0x0006: visitor.OnTerminalNumber(node); break;
+				case 0x0007: visitor.OnTerminalString(node); break;
+				case 0x0008: visitor.OnTerminalRegexp(node); break;
+				case 0x0009: visitor.OnTerminalIdentifier(node); break;
+				case 0x000A: visitor.OnVariableScript(node); break;
+				case 0x000B: visitor.OnVariableStatement(node); break;
+				case 0x000C: visitor.OnVariableQuery(node); break;
+				case 0x000D: visitor.OnVariableReadingClause(node); break;
+				case 0x000E: visitor.OnVariableLoad(node); break;
+				case 0x000F: visitor.OnVariableUpdatingClause(node); break;
+				case 0x0010: visitor.OnVariableReturn(node); break;
+				case 0x0011: visitor.OnVariablePattern(node); break;
+				case 0x0012: visitor.OnVariablePrimaryPattern(node); break;
+				case 0x0013: visitor.OnVariableStringPattern(node); break;
+				case 0x0014: visitor.OnVariableExpression(node); break;
+				case 0x0015: visitor.OnVariableCallExpression(node); break;
+				case 0x0016: visitor.OnVariableArguments(node); break;
+				case 0x0017: visitor.OnVariableArgument(node); break;
+				case 0x0018: visitor.OnVariableSpreadArgument(node); break;
+				case 0x0019: visitor.OnVariablePrimaryExpression(node); break;
+				case 0x001A: visitor.OnVariableIdentifierReference(node); break;
+				case 0x001B: visitor.OnVariableLiteral(node); break;
+				case 0x001C: visitor.OnVariableNumericLiteral(node); break;
+				case 0x001D: visitor.OnVariableStringLiteral(node); break;
+				case 0x001E: visitor.OnVariableRegularExpressionLiteral(node); break;
 			}
 		}
 	}

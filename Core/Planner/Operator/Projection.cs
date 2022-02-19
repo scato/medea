@@ -1,14 +1,16 @@
 namespace Medea.Core.Planner.Operator
 {
-    public class Project : IOperator
+    public class Projection : IOperator
     {
         public int Id { get; }
         public IOperator Source { get; }
+        public IExpression Expression { get; }
 
-        public Project(int id, IOperator source)
+        public Projection(int id, IOperator source, IExpression expression)
         {
             Id = id;
             Source = source;
+            Expression = expression;
         }
 
         public void Accept(IOperatorVisitor visitor)

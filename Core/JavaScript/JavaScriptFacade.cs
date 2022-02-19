@@ -17,7 +17,7 @@ namespace Medea.Core.JavaScript
             {
                 foreach (var prop in inputObject)
                 {
-                    var propValueJson = prop.Value.ToString();
+                    var propValueJson = prop.Value.ToString(Newtonsoft.Json.Formatting.None);
                     engine.SetValue(prop.Key, parser.Parse(propValueJson));
                 }
             }

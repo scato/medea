@@ -1,11 +1,11 @@
 namespace Medea.Core.Planner.Expression
 {
-    public class NumericLiteral : IExpression
+    public class RegularExpressionLiteral : IExpression
     {
         public int Id { get; }
         public string Value { get; }
 
-        public NumericLiteral(int id, string value)
+        public RegularExpressionLiteral(int id, string value)
         {
             Id = id;
             Value = value;

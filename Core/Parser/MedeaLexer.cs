@@ -31,21 +31,29 @@ namespace Medea.Core.Parser
 			/// </summary>
 			public const int TerminalWhiteSpace = 0x0003;
 			/// <summary>
+			/// The unique identifier for terminal LINE_TERMINATOR
+			/// </summary>
+			public const int TerminalLineTerminator = 0x0004;
+			/// <summary>
 			/// The unique identifier for terminal SEPARATOR
 			/// </summary>
-			public const int TerminalSeparator = 0x0004;
+			public const int TerminalSeparator = 0x0005;
 			/// <summary>
 			/// The unique identifier for terminal NUMBER
 			/// </summary>
-			public const int TerminalNumber = 0x0005;
+			public const int TerminalNumber = 0x0006;
 			/// <summary>
 			/// The unique identifier for terminal STRING
 			/// </summary>
-			public const int TerminalString = 0x0006;
+			public const int TerminalString = 0x0007;
+			/// <summary>
+			/// The unique identifier for terminal REGEXP
+			/// </summary>
+			public const int TerminalRegexp = 0x0008;
 			/// <summary>
 			/// The unique identifier for terminal IDENTIFIER
 			/// </summary>
-			public const int TerminalIdentifier = 0x0007;
+			public const int TerminalIdentifier = 0x0009;
 		}
 		/// <summary>
 		/// Contains the constant IDs for the contexts for this lexer
@@ -69,25 +77,32 @@ namespace Medea.Core.Parser
 			new Symbol(0x0001, "ε"),
 			new Symbol(0x0002, "$"),
 			new Symbol(0x0003, "WHITE_SPACE"),
-			new Symbol(0x0004, "SEPARATOR"),
-			new Symbol(0x0005, "NUMBER"),
-			new Symbol(0x0006, "STRING"),
-			new Symbol(0x0007, "IDENTIFIER"),
-			new Symbol(0x0018, ";"),
-			new Symbol(0x001A, "'LOAD"),
-			new Symbol(0x001B, "'RAW"),
-			new Symbol(0x001C, "'FROM"),
-			new Symbol(0x001D, "'AS"),
-			new Symbol(0x001E, "'RETURN") };
+			new Symbol(0x0004, "LINE_TERMINATOR"),
+			new Symbol(0x0005, "SEPARATOR"),
+			new Symbol(0x0006, "NUMBER"),
+			new Symbol(0x0007, "STRING"),
+			new Symbol(0x0008, "REGEXP"),
+			new Symbol(0x0009, "IDENTIFIER"),
+			new Symbol(0x001F, ";"),
+			new Symbol(0x0021, "'LOAD"),
+			new Symbol(0x0022, "'RAW"),
+			new Symbol(0x0023, "'FROM"),
+			new Symbol(0x0024, "'AS"),
+			new Symbol(0x0025, "'RETURN"),
+			new Symbol(0x0026, "."),
+			new Symbol(0x0028, "("),
+			new Symbol(0x0029, ")"),
+			new Symbol(0x002A, ","),
+			new Symbol(0x002C, "...") };
 		/// <summary>
 		/// Initializes a new instance of the lexer
 		/// </summary>
 		/// <param name="input">The lexer's input</param>
-		public MedeaLexer(string input) : base(commonAutomaton, terminals, 0x0004, input) {}
+		public MedeaLexer(string input) : base(commonAutomaton, terminals, 0x0005, input) {}
 		/// <summary>
 		/// Initializes a new instance of the lexer
 		/// </summary>
 		/// <param name="input">The lexer's input</param>
-		public MedeaLexer(TextReader input) : base(commonAutomaton, terminals, 0x0004, input) {}
+		public MedeaLexer(TextReader input) : base(commonAutomaton, terminals, 0x0005, input) {}
 	}
 }

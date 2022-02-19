@@ -4,7 +4,7 @@ namespace Medea.Core.Planner
 {
     public interface IPatternVisitor
     {
-        void Accept(StringLiteral stringLiteral);
-        void Accept(IdentifierReference identifierReference);
+        void Visit(StringLiteral stringLiteral);
+        void Visit(IdentifierReference identifierReference);
     }
 }
