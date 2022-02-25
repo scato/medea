@@ -17,8 +17,8 @@ namespace Medea.Core.Planner.Expression
 
         public void Accept(IExpressionVisitor visitor)
         {
-            this.Subject.Accept(visitor);
-            this.Arguments.Accept(visitor);
+            Subject.Accept(visitor);
+            Arguments.Accept(visitor);
 
             visitor.Visit(this);
         }
