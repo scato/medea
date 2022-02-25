@@ -15,8 +15,9 @@ namespace Medea.Core.Compiler.Visitor
             var id = rootOperator.Id;
 
             _classBody = @$"
-                public JavaScriptFacade JavaScript {{ get; set; }}
+                public DataStorageFacade DataStorage {{ get; set; }}
                 public FileStorageFacade FileStorage {{ get; set; }}
+                public JavaScriptFacade JavaScript {{ get; set; }}
 
                 public IEnumerable<JToken> Execute()
                 {{
@@ -120,6 +121,31 @@ namespace Medea.Core.Compiler.Visitor
                     foreach (var output{sourceId} in Execute{sourceId}())
                     {{
                         yield return JavaScript.Evaluate({expressionLiteral}, output{sourceId});
+                    }}
+                }}
+            ";
+        }
+
+        public void Visit(RowStoreScan rowStoreScan)
+        {
+            var id = rowStoreScan.Id;
+
+            var patternId = rowStoreScan.Pattern.Id;
+            var patternMatchMethod = PatternToMatchMethod(rowStoreScan.Pattern);
+
+            var sourceLiteral = StringToCSharp("default");
+
+            _classBody += @$"
+                {patternMatchMethod}
+
+                private IEnumerable<JToken> Execute{id}()
+                {{
+                    foreach (var record in DataStorage.Scan({sourceLiteral}))
+                    {{
+                        foreach (var output{patternId} in Match{patternId}(record))
+                        {{
+                            yield return output{patternId};
+                        }}
                     }}
                 }}
             ";

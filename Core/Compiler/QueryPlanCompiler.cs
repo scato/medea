@@ -31,6 +31,7 @@ namespace Medea.Core.Compiler
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@$"
                 using System.Collections.Generic;
                 using Medea.Core.Compiler;
+                using Medea.Core.DataStorage;
                 using Medea.Core.FileStorage;
                 using Medea.Core.JavaScript;
                 using Newtonsoft.Json.Linq;
