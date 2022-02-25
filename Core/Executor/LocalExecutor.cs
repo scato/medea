@@ -11,10 +11,21 @@ namespace Medea.Core.Executor
     public class LocalExecutor : IQueryPlanExecutor
     {
         private QueryPlanCompiler _compiler;
+        private DataStorageFacade _dataStorage;
+        private FileStorageFacade _fileStorage;
+        private JavaScriptFacade _javaScript;
 
-        public LocalExecutor()
+        public LocalExecutor(
+            QueryPlanCompiler compiler,
+            DataStorageFacade dataStorage,
+            FileStorageFacade fileStorage,
+            JavaScriptFacade javaScript
+        )
         {
-            _compiler = new QueryPlanCompiler();
+            _compiler = compiler;
+            _dataStorage = dataStorage;
+            _fileStorage = fileStorage;
+            _javaScript = javaScript;
         }
 
         public IEnumerable<JToken> Execute(QueryPlan queryPlan)
@@ -22,9 +33,9 @@ namespace Medea.Core.Executor
             foreach (var queryStage in queryPlan.QueryStages)
             {
                 var compiledQueryStage = _compiler.CompileQueryStage(queryStage);
-                compiledQueryStage.DataStorage = new DataStorageFacade();
-                compiledQueryStage.FileStorage = new FileStorageFacade();
-                compiledQueryStage.JavaScript = new JavaScriptFacade();
+                compiledQueryStage.DataStorage = _dataStorage;
+                compiledQueryStage.FileStorage = _fileStorage;
+                compiledQueryStage.JavaScript = _javaScript;
 
                 foreach (var record in compiledQueryStage.Execute())
                 {

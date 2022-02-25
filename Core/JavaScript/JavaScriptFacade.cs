@@ -1,6 +1,7 @@
 using Jint;
 using Jint.Native;
 using Jint.Native.Json;
+using Medea.Core.Executor;
 using Newtonsoft.Json.Linq;
 
 namespace Medea.Core.JavaScript

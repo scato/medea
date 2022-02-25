@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Medea.Client.Adapter
 {
-    public class AdapterFactory : IAdapterFactory
+    public class AdapterFactory
     {
         public IAdapter Create(string uriString)
         {
@@ -17,7 +17,12 @@ namespace Medea.Client.Adapter
                     var basePath = Path.GetDirectoryName(typeof(AdapterFactory).Assembly.Location);
                     var coreAssembly = Assembly.LoadFrom(Path.Join(basePath, "Medea.Core.dll"));
 
-                    dynamic queryService = coreAssembly.CreateInstance("Medea.Core.Service.QueryService");
+                    // Create a QueryService
+                    dynamic factory = coreAssembly.CreateInstance("Medea.Core.Service.InMemoryServiceFactory");
+                    dynamic databaseService = factory.CreateDatabaseService();
+                    dynamic queryService = factory.CreateQueryService();
+
+                    databaseService.Initialize();
 
                     return new InMemoryAdapter(queryService);
                 default:

@@ -12,7 +12,9 @@ namespace Medea.Test.Core.Service
         [SetUp]
         public void Setup()
         {
-            _queryService = new QueryService();
+            var factory = new InMemoryServiceFactory();
+
+            _queryService = factory.CreateQueryService();
         }
 
         [Test]

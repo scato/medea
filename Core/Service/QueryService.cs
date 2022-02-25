@@ -13,10 +13,10 @@ namespace Medea.Core.Service
         private QueryPlanner _planner;
         private IQueryPlanExecutor _executor;
 
-        public QueryService()
+        public QueryService(QueryPlanner queryPlanner, IQueryPlanExecutor executor)
         {
-            _planner = new QueryPlanner();
-            _executor = new LocalExecutor();
+            _planner = queryPlanner;
+            _executor = executor;
         }
 
         public IEnumerable<JToken> Execute(string queryString)

@@ -3,6 +3,7 @@ using Medea.Core.Executor;
 using Medea.Core.Planner;
 using Medea.Core.Planner.Expression;
 using Medea.Core.Planner.Operator;
+using Medea.Core.Service;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -15,7 +16,9 @@ namespace Medea.Test.Core.Executor
         [SetUp]
         public void Setup()
         {
-            _executor = new LocalExecutor();
+            var factory = new InMemoryServiceFactory();
+
+            _executor = factory.CreateLocalExecutor();
         }
 
         [Test]
