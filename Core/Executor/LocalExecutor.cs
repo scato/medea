@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Medea.Core.Compiler;
+using Medea.Core.DataStorage;
 using Medea.Core.FileStorage;
 using Medea.Core.JavaScript;
 using Medea.Core.Planner;
@@ -21,6 +22,7 @@ namespace Medea.Core.Executor
             foreach (var queryStage in queryPlan.QueryStages)
             {
                 var compiledQueryStage = _compiler.CompileQueryStage(queryStage);
+                compiledQueryStage.DataStorage = new DataStorageFacade();
                 compiledQueryStage.FileStorage = new FileStorageFacade();
                 compiledQueryStage.JavaScript = new JavaScriptFacade();
 

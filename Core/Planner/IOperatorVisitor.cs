@@ -7,5 +7,6 @@ namespace Medea.Core.Planner
         void Visit(ConstantExpressionScan constantExpressionScan);
         void Visit(FileScan fileScan);
         void Visit(Projection projection);
+        void Visit(RowStoreScan rowStoreScan);
     }
 }

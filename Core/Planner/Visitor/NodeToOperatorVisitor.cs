@@ -49,6 +49,14 @@ namespace Medea.Core.Planner.Visitor
             _stack.Push(new FileScan(id, format, pathPattern, dataPattern));
         }
 
+        public override void OnVariableMatch(ASTNode node)
+        {
+            var id = _nextId++;
+            var pattern = (IPattern) _stack.Pop();
+
+            _stack.Push(new RowStoreScan(id, pattern));
+        }
+
         public override void OnVariableCallExpression(ASTNode node)
         {
             var numCalls = (node.Children.Count - 1) / 2;
