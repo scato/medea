@@ -28,7 +28,7 @@ grammar Medea
 
     rules
     {
-        Script -> Statement ';';
+        Script -> Statement ';'!;
 
         // see https://s3.amazonaws.com/artifacts.opencypher.org/M18/railroad/Cypher.html#Query
         Statement -> Query^;
@@ -37,8 +37,10 @@ grammar Medea
         Query -> UpdatingClause;
 
         ReadingClause -> Load^;
+        ReadingClause -> Match^;
 
         Load -> ~'LOAD'! (~'RAW') ~'FROM'! StringPattern ~'AS'! Pattern;
+        Match -> ~'MATCH'! Pattern;
 
         UpdatingClause -> Return^;
 

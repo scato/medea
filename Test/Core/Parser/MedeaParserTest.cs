@@ -11,26 +11,38 @@ namespace Medea.Test.Core.Parser
         {
         }
 
-        [Test]
-        public void ShouldParseQueries()
+        [TestCaseSource("ParseTreeExamples")]
+        public void ShouldParseQuery(string query, string tree)
         {
-            var lexer = new MedeaLexer("RETURN 1;");
+            var lexer = new MedeaLexer(query);
             var parser = new MedeaParser(lexer);
             var result = parser.Parse();
 
             Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual(tree, result.Root.ToPrettyString());
+        }
 
-            var script = result.Root;
-            Assert.AreEqual("Script", script.Symbol.Name);
-
-            var query = script.Children[0];
-            Assert.AreEqual("Query", query.Symbol.Name);
-
-            var return_ = query.Children[0];
-            Assert.AreEqual("Return", return_.Symbol.Name);
-
-            var numericLiteral = return_.Children[0];
-            Assert.AreEqual("NumericLiteral", numericLiteral.Symbol.Name);
+        private static string[][] ParseTreeExamples()
+        {
+            return new[]
+            {
+                new[] {
+                    @"RETURN 1;",
+                    @"Script(Query(Return(NumericLiteral(1))))"
+                },
+                new[] {
+                    @"LOAD RAW FROM ""Fixtures/example.txt"" AS contents;",
+                    @"Script(Query(Load(RAW, StringLiteral(""Fixtures/example.txt""), IdentifierReference(contents))))"
+                },
+                new[] {
+                    @"RETURN contents.replace(/\r/g, """");",
+                    @"Script(Query(Return(CallExpression(IdentifierReference(contents), replace, Arguments(RegularExpressionLiteral(/\r/g), StringLiteral(""""))))))"
+                },
+                new[] {
+                    @"MATCH game;",
+                    @"Script(Query(Match(IdentifierReference(game))))"
+                },
+            };
         }
 
         [Test]

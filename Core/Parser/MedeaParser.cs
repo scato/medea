@@ -46,69 +46,73 @@ namespace Medea.Core.Parser
 			/// </summary>
 			public const int VariableLoad = 0x000E;
 			/// <summary>
+			/// The unique identifier for variable Match
+			/// </summary>
+			public const int VariableMatch = 0x000F;
+			/// <summary>
 			/// The unique identifier for variable UpdatingClause
 			/// </summary>
-			public const int VariableUpdatingClause = 0x000F;
+			public const int VariableUpdatingClause = 0x0010;
 			/// <summary>
 			/// The unique identifier for variable Return
 			/// </summary>
-			public const int VariableReturn = 0x0010;
+			public const int VariableReturn = 0x0011;
 			/// <summary>
 			/// The unique identifier for variable Pattern
 			/// </summary>
-			public const int VariablePattern = 0x0011;
+			public const int VariablePattern = 0x0012;
 			/// <summary>
 			/// The unique identifier for variable PrimaryPattern
 			/// </summary>
-			public const int VariablePrimaryPattern = 0x0012;
+			public const int VariablePrimaryPattern = 0x0013;
 			/// <summary>
 			/// The unique identifier for variable StringPattern
 			/// </summary>
-			public const int VariableStringPattern = 0x0013;
+			public const int VariableStringPattern = 0x0014;
 			/// <summary>
 			/// The unique identifier for variable Expression
 			/// </summary>
-			public const int VariableExpression = 0x0014;
+			public const int VariableExpression = 0x0015;
 			/// <summary>
 			/// The unique identifier for variable CallExpression
 			/// </summary>
-			public const int VariableCallExpression = 0x0015;
+			public const int VariableCallExpression = 0x0016;
 			/// <summary>
 			/// The unique identifier for variable Arguments
 			/// </summary>
-			public const int VariableArguments = 0x0016;
+			public const int VariableArguments = 0x0017;
 			/// <summary>
 			/// The unique identifier for variable Argument
 			/// </summary>
-			public const int VariableArgument = 0x0017;
+			public const int VariableArgument = 0x0018;
 			/// <summary>
 			/// The unique identifier for variable SpreadArgument
 			/// </summary>
-			public const int VariableSpreadArgument = 0x0018;
+			public const int VariableSpreadArgument = 0x0019;
 			/// <summary>
 			/// The unique identifier for variable PrimaryExpression
 			/// </summary>
-			public const int VariablePrimaryExpression = 0x0019;
+			public const int VariablePrimaryExpression = 0x001A;
 			/// <summary>
 			/// The unique identifier for variable IdentifierReference
 			/// </summary>
-			public const int VariableIdentifierReference = 0x001A;
+			public const int VariableIdentifierReference = 0x001B;
 			/// <summary>
 			/// The unique identifier for variable Literal
 			/// </summary>
-			public const int VariableLiteral = 0x001B;
+			public const int VariableLiteral = 0x001C;
 			/// <summary>
 			/// The unique identifier for variable NumericLiteral
 			/// </summary>
-			public const int VariableNumericLiteral = 0x001C;
+			public const int VariableNumericLiteral = 0x001D;
 			/// <summary>
 			/// The unique identifier for variable StringLiteral
 			/// </summary>
-			public const int VariableStringLiteral = 0x001D;
+			public const int VariableStringLiteral = 0x001E;
 			/// <summary>
 			/// The unique identifier for variable RegularExpressionLiteral
 			/// </summary>
-			public const int VariableRegularExpressionLiteral = 0x001E;
+			public const int VariableRegularExpressionLiteral = 0x001F;
 		}
 		/// <summary>
 		/// The collection of variables matched by this parser
@@ -123,26 +127,27 @@ namespace Medea.Core.Parser
 			new Symbol(0x000C, "Query"), 
 			new Symbol(0x000D, "ReadingClause"), 
 			new Symbol(0x000E, "Load"), 
-			new Symbol(0x000F, "UpdatingClause"), 
-			new Symbol(0x0010, "Return"), 
-			new Symbol(0x0011, "Pattern"), 
-			new Symbol(0x0012, "PrimaryPattern"), 
-			new Symbol(0x0013, "StringPattern"), 
-			new Symbol(0x0014, "Expression"), 
-			new Symbol(0x0015, "CallExpression"), 
-			new Symbol(0x0016, "Arguments"), 
-			new Symbol(0x0017, "Argument"), 
-			new Symbol(0x0018, "SpreadArgument"), 
-			new Symbol(0x0019, "PrimaryExpression"), 
-			new Symbol(0x001A, "IdentifierReference"), 
-			new Symbol(0x001B, "Literal"), 
-			new Symbol(0x001C, "NumericLiteral"), 
-			new Symbol(0x001D, "StringLiteral"), 
-			new Symbol(0x001E, "RegularExpressionLiteral"), 
-			new Symbol(0x0020, "__V32"), 
-			new Symbol(0x0027, "__V39"), 
-			new Symbol(0x002B, "__V43"), 
-			new Symbol(0x002D, "__VAxiom") };
+			new Symbol(0x000F, "Match"), 
+			new Symbol(0x0010, "UpdatingClause"), 
+			new Symbol(0x0011, "Return"), 
+			new Symbol(0x0012, "Pattern"), 
+			new Symbol(0x0013, "PrimaryPattern"), 
+			new Symbol(0x0014, "StringPattern"), 
+			new Symbol(0x0015, "Expression"), 
+			new Symbol(0x0016, "CallExpression"), 
+			new Symbol(0x0017, "Arguments"), 
+			new Symbol(0x0018, "Argument"), 
+			new Symbol(0x0019, "SpreadArgument"), 
+			new Symbol(0x001A, "PrimaryExpression"), 
+			new Symbol(0x001B, "IdentifierReference"), 
+			new Symbol(0x001C, "Literal"), 
+			new Symbol(0x001D, "NumericLiteral"), 
+			new Symbol(0x001E, "StringLiteral"), 
+			new Symbol(0x001F, "RegularExpressionLiteral"), 
+			new Symbol(0x0021, "__V33"), 
+			new Symbol(0x0029, "__V41"), 
+			new Symbol(0x002D, "__V45"), 
+			new Symbol(0x002F, "__VAxiom") };
 		/// <summary>
 		/// The collection of virtuals matched by this parser
 		/// </summary>
@@ -176,6 +181,7 @@ namespace Medea.Core.Parser
 			public virtual void OnVariableQuery(ASTNode node) {}
 			public virtual void OnVariableReadingClause(ASTNode node) {}
 			public virtual void OnVariableLoad(ASTNode node) {}
+			public virtual void OnVariableMatch(ASTNode node) {}
 			public virtual void OnVariableUpdatingClause(ASTNode node) {}
 			public virtual void OnVariableReturn(ASTNode node) {}
 			public virtual void OnVariablePattern(ASTNode node) {}
@@ -227,22 +233,23 @@ namespace Medea.Core.Parser
 				case 0x000C: visitor.OnVariableQuery(node); break;
 				case 0x000D: visitor.OnVariableReadingClause(node); break;
 				case 0x000E: visitor.OnVariableLoad(node); break;
-				case 0x000F: visitor.OnVariableUpdatingClause(node); break;
-				case 0x0010: visitor.OnVariableReturn(node); break;
-				case 0x0011: visitor.OnVariablePattern(node); break;
-				case 0x0012: visitor.OnVariablePrimaryPattern(node); break;
-				case 0x0013: visitor.OnVariableStringPattern(node); break;
-				case 0x0014: visitor.OnVariableExpression(node); break;
-				case 0x0015: visitor.OnVariableCallExpression(node); break;
-				case 0x0016: visitor.OnVariableArguments(node); break;
-				case 0x0017: visitor.OnVariableArgument(node); break;
-				case 0x0018: visitor.OnVariableSpreadArgument(node); break;
-				case 0x0019: visitor.OnVariablePrimaryExpression(node); break;
-				case 0x001A: visitor.OnVariableIdentifierReference(node); break;
-				case 0x001B: visitor.OnVariableLiteral(node); break;
-				case 0x001C: visitor.OnVariableNumericLiteral(node); break;
-				case 0x001D: visitor.OnVariableStringLiteral(node); break;
-				case 0x001E: visitor.OnVariableRegularExpressionLiteral(node); break;
+				case 0x000F: visitor.OnVariableMatch(node); break;
+				case 0x0010: visitor.OnVariableUpdatingClause(node); break;
+				case 0x0011: visitor.OnVariableReturn(node); break;
+				case 0x0012: visitor.OnVariablePattern(node); break;
+				case 0x0013: visitor.OnVariablePrimaryPattern(node); break;
+				case 0x0014: visitor.OnVariableStringPattern(node); break;
+				case 0x0015: visitor.OnVariableExpression(node); break;
+				case 0x0016: visitor.OnVariableCallExpression(node); break;
+				case 0x0017: visitor.OnVariableArguments(node); break;
+				case 0x0018: visitor.OnVariableArgument(node); break;
+				case 0x0019: visitor.OnVariableSpreadArgument(node); break;
+				case 0x001A: visitor.OnVariablePrimaryExpression(node); break;
+				case 0x001B: visitor.OnVariableIdentifierReference(node); break;
+				case 0x001C: visitor.OnVariableLiteral(node); break;
+				case 0x001D: visitor.OnVariableNumericLiteral(node); break;
+				case 0x001E: visitor.OnVariableStringLiteral(node); break;
+				case 0x001F: visitor.OnVariableRegularExpressionLiteral(node); break;
 			}
 		}
 	}

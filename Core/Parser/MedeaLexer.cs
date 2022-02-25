@@ -83,17 +83,18 @@ namespace Medea.Core.Parser
 			new Symbol(0x0007, "STRING"),
 			new Symbol(0x0008, "REGEXP"),
 			new Symbol(0x0009, "IDENTIFIER"),
-			new Symbol(0x001F, ";"),
-			new Symbol(0x0021, "'LOAD"),
-			new Symbol(0x0022, "'RAW"),
-			new Symbol(0x0023, "'FROM"),
-			new Symbol(0x0024, "'AS"),
-			new Symbol(0x0025, "'RETURN"),
-			new Symbol(0x0026, "."),
-			new Symbol(0x0028, "("),
-			new Symbol(0x0029, ")"),
-			new Symbol(0x002A, ","),
-			new Symbol(0x002C, "...") };
+			new Symbol(0x0020, ";"),
+			new Symbol(0x0022, "'LOAD"),
+			new Symbol(0x0023, "'RAW"),
+			new Symbol(0x0024, "'FROM"),
+			new Symbol(0x0025, "'AS"),
+			new Symbol(0x0026, "'MATCH"),
+			new Symbol(0x0027, "'RETURN"),
+			new Symbol(0x0028, "."),
+			new Symbol(0x002A, "("),
+			new Symbol(0x002B, ")"),
+			new Symbol(0x002C, ","),
+			new Symbol(0x002E, "...") };
 		/// <summary>
 		/// Initializes a new instance of the lexer
 		/// </summary>
