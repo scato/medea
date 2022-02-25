@@ -2,6 +2,7 @@ using FluentAssertions;
 using TechTalk.SpecFlow;
 using Medea.Client;
 using System.Linq;
+using System.Web;
 
 namespace Medea.Spec.Steps
 {
@@ -21,6 +22,12 @@ namespace Medea.Spec.Steps
         public void GivenAnEmptyDatabase()
         {
             _session = Session.Create("data:[]");
+        }
+
+        [Given(@"a database that contains")]
+        public void GivenADatabaseThatContains(string multilineText)
+        {
+            _session = Session.Create("data:" + HttpUtility.UrlEncode(multilineText));
         }
 
         [When(@"I execute")]
