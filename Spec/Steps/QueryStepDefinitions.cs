@@ -1,8 +1,9 @@
-using FluentAssertions;
 using TechTalk.SpecFlow;
 using Medea.Client;
+using System;
 using System.Linq;
-using System.Web;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 
 namespace Medea.Spec.Steps
 {
@@ -21,13 +22,13 @@ namespace Medea.Spec.Steps
         [Given(@"an empty database")]
         public void GivenAnEmptyDatabase()
         {
-            _session = Session.Create("data:[]");
+            _session = Session.Create("data:");
         }
 
         [Given(@"a database that contains")]
         public void GivenADatabaseThatContains(string multilineText)
         {
-            _session = Session.Create("data:" + HttpUtility.UrlEncode(multilineText));
+            _session = Session.Create("data:application/x-ndjson," + Uri.EscapeDataString(multilineText));
         }
 
         [When(@"I execute")]
@@ -39,7 +40,10 @@ namespace Medea.Spec.Steps
         [Then(@"the results should be")]
         public void ThenTheResultsAre(string multilineText)
         {
-            _query.Results.ToNdjson().Should().Be(multilineText);
+            var actual = _query.Results.ToArray();
+            var expected = multilineText.Split('\n').Select(l => JToken.Parse(l)).ToArray();
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
