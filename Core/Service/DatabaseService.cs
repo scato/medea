@@ -21,5 +21,25 @@ namespace Medea.Core.Service
                 Payload = new JObject(new JProperty("name", new JValue("default")))
             });
         }
+
+        public void Initialize(string contentType, string content)
+        {
+            Initialize();
+
+            switch (contentType)
+            {
+                case "application/x-ndjson":
+                    foreach (var line in content.Split('\n'))
+                    {
+                        _dataStorageFacade.Append(new CommitLogEntry() {
+                            Action = CommitLogEntry.CREATE,
+                            Payload = JToken.Parse(line)
+                        });
+                    }
+                    break;
+                default:
+                    throw new ArgumentException($"Cannot initialize database using content type {contentType}");
+            }
+        }
     }
 }

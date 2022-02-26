@@ -25,7 +25,7 @@ namespace Medea.Test.Client.Adapter
         [Test]
         public void ShouldCreateInMemoryAdapterForDataUri()
         {
-            var adapter = _adapterFactory.Create("data:application/ndjson;base64,eyJmb28iOiAiYmFyIn0=");
+            var adapter = _adapterFactory.Create("data:application/x-ndjson;base64,eyJmb28iOiAiYmFyIn0=");
 
             Assert.IsInstanceOf<InMemoryAdapter>(adapter);
         }

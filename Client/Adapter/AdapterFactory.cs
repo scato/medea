@@ -22,7 +22,14 @@ namespace Medea.Client.Adapter
                     dynamic databaseService = factory.CreateDatabaseService();
                     dynamic queryService = factory.CreateQueryService();
 
-                    databaseService.Initialize();
+                    if (uri.GetContent() == "")
+                    {
+                        databaseService.Initialize();
+                    }
+                    else
+                    {
+                        databaseService.Initialize(uri.GetMediaType().Split(';')[0], uri.GetContent());
+                    }
 
                     return new InMemoryAdapter(queryService);
                 default:
